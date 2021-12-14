@@ -86,10 +86,7 @@
     <script>
         var sekunda = 0;
         var t;
-        var element = document.getElementById(x);
-        function usunelement(x){
-            element.parentNode.removeChildelement
-        }
+        var q = 0;
         function timer()
         {   
             if (sekunda < 100)
@@ -134,7 +131,6 @@
         }
         function pokaz(t, x, y)
         {
-            var q = 0;
             var plansza = document.getElementById("plansza");
             for (var wiersz=0; wiersz<y; wiersz++)
             {
@@ -142,7 +138,7 @@
                 {
                     if(kolumna==x-1)
                     {
-                         btn = document.createElement("button");
+                        var btn = document.createElement("button");
                         plansza.appendChild(btn);
                         plansza.innerHTML += "</br>"
                     }
@@ -151,8 +147,11 @@
                         var btn = document.createElement("button");
                         plansza.appendChild(btn);
                     }
+                    btn.setAttribute('class', 'przyciski');
+                    btn.setAttribute('id', String(q));
+                    btn.setAttribute('onclick', "alert('button clicked')");
                     q+=1;
-                    btn.setAttribute('id', q);
+                    console.log(btn);
                 }
             }
         }
