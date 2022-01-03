@@ -163,7 +163,7 @@ function pokaz(t, x, y)
         var prawakrawedz = (i === szerokosc-1)
 
         if (przyciski[i].classList.contains("zwyklak")) {
-            if (!lewakrawedz && przyciski[i-1].classList.contains("bomba")) {total ++}
+            if (i > 0 && !lewakrawedz && przyciski[i-1].classList.contains("bomba")) {total ++}
             if (i > szerokosc-1 && !prawakrawedz && przyciski[i + 1 - szerokosc].classList.contains("bomba")) total ++
             if (i > szerokosc && przyciski[i - szerokosc].classList.contains("bomba")) total ++
             if (i > szerokosc+1 && !lewakrawedz && przyciski[i - 1 - szerokosc].classList.contains("bomba")) total ++
