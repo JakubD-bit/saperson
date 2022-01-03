@@ -1,0 +1,87 @@
+*{
+    background-color: rgb(199, 188, 174);
+}
+#timer{
+    font-size: 30px;
+    text-align: center;
+    background-color: rgb(34, 107, 107);
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #bdb2b2;
+    border-radius: 0.5%;
+
+}
+li {
+    float: left;
+}
+li button {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 16px;
+    text-decoration: rgb(143, 28, 28);
+    border-radius: 0.5%;
+
+}
+li a:hover {
+    background-color: #111111;
+}
+#plansza{
+    background-color: #979797;
+    border-radius: 2.5%;
+    padding: 3px;
+    margin: 0 auto;
+    text-align: center;
+
+}
+.easy{
+    width: 200px;
+}
+.normal{
+    width: 350px;
+}
+.hard{
+    width: 500px;
+}
+button{
+    background-color: #a59c99;
+    min-height: 25px;
+    min-width: 25px;
+}
+
+button:hover{
+    /* color: white; */
+    cursor: pointer;
+    background-color: #c7b5aa;
+    transition-duration: 0.3s;
+}
+
+.btn123 {
+    background-color: #bdb2b2; 
+    color: black; 
+    border: 2px solid #692c19;
+    display: inline-block;
+    border: none;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+
+
+}
+.btn123:hover {
+background-color: rgb(86, 138, 88);
+color: white;
+cursor: pointer;
+transition-duration: 0.4s;
+}
+.bomba {
+    background-color: orange;
+}
+.sprawdzone {
+    background-color: red;
+}
