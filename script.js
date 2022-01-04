@@ -1,9 +1,13 @@
+var x;
+var y;
 var sekunda = 0;
 var t;
 var id = 0;
 var idbomb = [];
 var przyciski = [];
-window.addEventListener('contextmenu', function (e) {e.preventDefault();});
+var przegrana = false;
+var szerokosc;
+var btn;
 function timer()
 {   
     if (sekunda < 100)
@@ -125,45 +129,33 @@ function ile_bomb(n, x, y, t)
 }
 function pokaz(t, x, y)
 {
-    id = 0;
-    var szerokosc = x;
+    szerokosc = x;
     var plansza = document.getElementById("plansza");
-    for (var wiersz=0; wiersz<y; wiersz++)
+    for (var id=0; id < x*y; id++)
     {
-        for (var kolumna=0; kolumna<x; kolumna++)
+        var btn = document.createElement("button");
+        plansza.appendChild(btn);
+        btn.setAttribute('id', String(id));
+        if (idbomb.includes(id))
         {
-            if(kolumna==x)
-            {
-                var btn = document.createElement("button");
-                plansza.appendChild(btn);
-                plansza.innerHTML += "</br>"
-            }
-            else
-            {
-                var btn = document.createElement("button");
-                plansza.appendChild(btn);
-            }
-            btn.setAttribute('id', String(id));
-            if (idbomb.includes(id))
-            {
-                btn.setAttribute('class', 'bomba');
-            } else {
-                btn.setAttribute('class', 'zwyklak');
-            }
-            id+=1;
-            przyciski.push(btn);
-            btn.setAttribute('onclick', 'lewyklik(id)');
-            btn.setAttribute('oncontextmenu', 'prawyklik(id)');
+            btn.setAttribute('class', 'bomba');
+        } else {
+            btn.setAttribute('class', 'zwyklak');
         }
+        btn.setAttribute('onclick', 'lewyklik(id)');
+        btn.setAttribute('oncontextmenu', 'prawyklik(id)');
+        przyciski.push(btn);
+        console.log(btn);
     }
-    console.log(przyciski)
-    for (var i = 0; i < przyciski.length; i++) {
+    for (var i = 0; i < przyciski.length; i++) 
+    {
         let total = 0;
-        var lewakrawedz = (i % szerokosc === 0) 
-        var prawakrawedz = (i === szerokosc-1)
+        var lewakrawedz = (i % szerokosc === 0); 
+        var prawakrawedz = ((i+1) % szerokosc === 0);
 
-        if (przyciski[i].classList.contains("zwyklak")) {
-            if (i > 0 && !lewakrawedz && przyciski[i-1].classList.contains("bomba")) {total ++}
+        if (przyciski[i].classList.contains("zwyklak")) 
+        {
+            if (i > 0 && !lewakrawedz && przyciski[i-1].classList.contains("bomba")) total ++
             if (i > szerokosc-1 && !prawakrawedz && przyciski[i + 1 - szerokosc].classList.contains("bomba")) total ++
             if (i > szerokosc && przyciski[i - szerokosc].classList.contains("bomba")) total ++
             if (i > szerokosc+1 && !lewakrawedz && przyciski[i - 1 - szerokosc].classList.contains("bomba")) total ++
@@ -173,24 +165,80 @@ function pokaz(t, x, y)
             if (i < x*(y-1)-1 && przyciski[i + szerokosc].classList.contains("bomba")) total ++
             przyciski[i].setAttribute('data', total)
         }
-        console.log(przyciski[i]);
     }
 }
 function lewyklik(id){
     var btn = document.getElementById(id);
+    if (przegrana) return
+    if (btn.classList.contains("sprawdzone") || btn.classList.contains("flaga")) return
     if (btn.classList.contains("bomba")){
-        console.log("bomba");
+        console.log("game over");
     } else {
-        var total = btn.getAttribute('data');
+        let total = btn.getAttribute('data');
         if (total != 0){
             btn.classList.add("sprawdzone");
+            if (total == 1) btn.classList.add('jedna');
+            if (total == 2) btn.classList.add('dwie');
+            if (total == 3) btn.classList.add('trzy');
+            if (total == 4) btn.classList.add('cztery');
+            if (total == 5) btn.classList.add('piec');
+            if (total == 6) btn.classList.add('szesc');
+            if (total == 7) btn.classList.add('siedem');
+            btn.innerHTML = total;
+            return
         }
+        sprawdz(id);
     }
-    console.log(btn);
+    btn.classList.add("sprawdzone");
+}
+function sprawdz(id)
+{
+    var lewakrawedz = (id % szerokosc === 0); 
+    var prawakrawedz = ((id+1) % szerokosc === 0);
+    console.log(przyciski[id]);
+    id = Number(id);
+
+    if (id > 0 && !lewakrawedz) {
+        var noweid = przyciski[id - 1].id;
+        lewyklik(noweid);
+    }
+    if (id > (szerokosc - 1) && !prawakrawedz) {
+        var noweid = przyciski[id + 1 - szerokosc].id;
+        lewyklik(noweid);
+    }
+    if (id > szerokosc) {
+        var noweid = przyciski[id - szerokosc].id;
+        lewyklik(noweid);
+    }
+    if (id > szerokosc + 1 && !lewakrawedz) {
+        var noweid = przyciski[id - 1 - szerokosc].id;
+        lewyklik(noweid);
+    }
+    if (id < (x*y)-2 && !prawakrawedz) {
+        var noweid = przyciski[id + 1].id;
+        lewyklik(noweid);
+    }
+    if (id < x*(y-1) && !lewakrawedz) {
+        var noweid = przyciski[id - 1 + szerokosc].id;
+        lewyklik(noweid);
+    }
+    if (id < x*(y-1)-2 && !prawakrawedz) {
+        var noweid = przyciski[id + 1 + szerokosc].id;
+        lewyklik(noweid);
+    }
+    if (id < x*(y-1)-1) {
+        var noweid = przyciski[id + szerokosc].id;
+        lewyklik(noweid);
+    }
 }
 function prawyklik(id){
+    window.addEventListener('contextmenu', function (e) {e.preventDefault();});
     var btn = document.getElementById(id);
-    console.log("flaga");
+    if (btn.classList.contains("flaga")){
+        btn.classList.remove("flaga")
+    } else {
+        btn.classList.add("flaga");
+    }
 }
 function latwy()
 {
