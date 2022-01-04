@@ -1,5 +1,7 @@
 var x;
 var y;
+var xn;
+var yn;
 var sekunda = 0;
 var t;
 var id = 0;
@@ -8,6 +10,11 @@ var przyciski = [];
 var przegrana = false;
 var szerokosc;
 var btn;
+var iloscbomb;
+var pozostaleflagi = document.getElementById("pozostale-flagi");
+function pokazflagi(){
+    document.getElementById("div-flagi").style.display = "flex";
+}
 function timer()
 {   
     if (sekunda < 100)
@@ -42,12 +49,22 @@ function ile_bomb(n, x, y, t)
     idbomb = [];
     document.getElementById("plansza").innerHTML = "";
     var i = 0;
+    var size = x*y;
     for (n=n; n>0; n--)
     {
-        var xn = Math.floor(Math.random() * x)
-        var yn = Math.floor(Math.random() * y)
+        var prex = xn;
+        var prey = yn;
+        xn = Math.floor(Math.random() * x);
+        yn = Math.floor(Math.random() * y);
+        console.log(xn)
+        console.log(yn)
+        if (prex == xn || prey == yn || xn * yn > size){
+            n = n + 1;
+            continue;
+        }
         switch (yn) {
             case 0:
+                //if (idbomb.includes(xn)){} break;
                 idbomb[i] = xn;
                 break;
             case 1:
@@ -120,12 +137,11 @@ function ile_bomb(n, x, y, t)
                 idbomb[i] = (23*y) + xn;
                 break;
         }
-        if (t[yn][xn] !== 1)
-        {
-            t[yn][xn] = 1;
-        }
+        
         i += 1;
     }
+    idbomb.sort(function(a, b){return a - b});
+    console.log(idbomb)
 }
 function pokaz(t, x, y)
 {
@@ -145,7 +161,6 @@ function pokaz(t, x, y)
         btn.setAttribute('onclick', 'lewyklik(id)');
         btn.setAttribute('oncontextmenu', 'prawyklik(id)');
         przyciski.push(btn);
-        console.log(btn);
     }
     for (var i = 0; i < przyciski.length; i++) 
     {
@@ -166,6 +181,7 @@ function pokaz(t, x, y)
             przyciski[i].setAttribute('data', total)
         }
     }
+    pokazflagi();
 }
 function lewyklik(id){
     var btn = document.getElementById(id);
@@ -190,6 +206,7 @@ function lewyklik(id){
         sprawdz(id);
     }
     btn.classList.add("sprawdzone");
+    console.log(btn);
 }
 function sprawdz(id)
 {
@@ -239,6 +256,7 @@ function prawyklik(id){
     } else {
         btn.classList.add("flaga");
     }
+    console.log(btn);
 }
 function latwy()
 {
