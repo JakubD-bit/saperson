@@ -11,6 +11,9 @@ var przegrana = false;
 var szerokosc;
 var btn;
 var iloscbomb;
+var iloscsprawdzonych = 0;
+var ikonaflagi = "&#128681;";
+var ikonabomba = "&#128163;";
 var pozostaleflagi = document.getElementById("pozostale-flagi");
 function pokazflagi(){
     document.getElementById("div-flagi").style.display = "flex";
@@ -56,8 +59,6 @@ function ile_bomb(n, x, y, t)
         var prey = yn;
         xn = Math.floor(Math.random() * x);
         yn = Math.floor(Math.random() * y);
-        console.log(xn)
-        console.log(yn)
         if (prex == xn || prey == yn || xn * yn > size){
             n = n + 1;
             continue;
@@ -141,7 +142,6 @@ function ile_bomb(n, x, y, t)
         i += 1;
     }
     idbomb.sort(function(a, b){return a - b});
-    console.log(idbomb)
 }
 function pokaz(t, x, y)
 {
@@ -188,7 +188,15 @@ function lewyklik(id){
     if (przegrana) return
     if (btn.classList.contains("sprawdzone") || btn.classList.contains("flaga")) return
     if (btn.classList.contains("bomba")){
-        console.log("game over");
+        btn.innerHTML = ikonabomba;
+        alert("Przegrałeś!!!");
+        przegrana = true;
+        for (var i=0; i < przyciski.length; i++){
+            if (przyciski[i].classList.contains("bomba")){
+                przyciski[i].classList.add("sprawdzone");
+                przyciski[i].innerHTML = ikonabomba;
+            }
+        }
     } else {
         let total = btn.getAttribute('data');
         if (total != 0){
@@ -206,13 +214,12 @@ function lewyklik(id){
         sprawdz(id);
     }
     btn.classList.add("sprawdzone");
-    console.log(btn);
+    iloscsprawdzonych += 1;
 }
 function sprawdz(id)
 {
     var lewakrawedz = (id % szerokosc === 0); 
     var prawakrawedz = ((id+1) % szerokosc === 0);
-    console.log(przyciski[id]);
     id = Number(id);
 
     if (id > 0 && !lewakrawedz) {
@@ -252,8 +259,10 @@ function prawyklik(id){
     window.addEventListener('contextmenu', function (e) {e.preventDefault();});
     var btn = document.getElementById(id);
     if (btn.classList.contains("flaga")){
+        btn.innerHTML = "";
         btn.classList.remove("flaga")
     } else {
+        btn.innerHTML = ikonaflagi;
         btn.classList.add("flaga");
     }
     console.log(btn);
