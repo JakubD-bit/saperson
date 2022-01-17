@@ -33,18 +33,18 @@
     margin-top: 15px;
 }
 .easy{
-    width: 240px;
+    width: 280px;
 }
 .normal{
-    width: 420px;
+    width: 490px;
 }
 .hard{
-    width: 600px;
+    width: 700px;
 }
 button{
     background-color: #a59c99;
-    min-height: 30px;
-    min-width: 30px;
+    min-height: 35px;
+    min-width: 35px;
 }
 
 button:hover{
@@ -67,7 +67,4 @@ button:hover{
 }
 .sprawdzone{
     background-color: #e9d7cc;
-}
-.bomba {
-    background-color: orange;
 }
