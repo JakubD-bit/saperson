@@ -215,6 +215,9 @@ function lewyklik(id){
     }
     btn.classList.add("sprawdzone");
     iloscsprawdzonych += 1;
+    if (przyciski.length - idbomb.length == iloscsprawdzonych){
+        alert("Wygrałeś!!!!");
+    }
 }
 function sprawdz(id)
 {
